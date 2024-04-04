@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 // login routes
 router.post("/", async (req, res) => {
     try {
-        const { error } = validate(req.body);
+        const { error } = validate({email: req.body.email, password: req.body.password});
         if (error)
             return res.status(400).send({ message: error.details[0].message });
         const user = await User.findOne({ email: req.body.email });
@@ -26,8 +26,8 @@ router.post("/", async (req, res) => {
 
 const validate = (data) => {
     const schema = Joi.object({
-        email: Joi.string().email().required().label("Email"),
-        password: Joi.string().email().required().label("Password"),
+        email: Joi.string().email().required().label("email"),
+        password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required().label("password"),
     });
     return schema.validate(data);
 }
