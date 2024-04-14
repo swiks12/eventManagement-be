@@ -50,25 +50,41 @@ const eventByOrgs=async(req,res)=>{
 }
 
 //update events
-const updateEvents=async(req,res)=>{
-    const result=await cloudinary.uploader.upload(req.body.image,{
-        folder:"eventImages",});
-    const updateEvent=Event.findByIdAndUpdate(req.params.id,{
-        name:req.body.eventName,
-        coordinates:req.body.coordinates,
-        address:req.body.address,
-        date:req.body.eventDate,
-        time:req.body.time,
-        price:req.body.price,
-        description:req.body.description,
-        image:{
-            public_id:result.public_id,
-            url:result.secure_url
-        },
-        organizerId:req.body.organizerId,
-    });
-    res.json("Event update successfull")
-}
+const updateEvents = async (req, res) => {
+    try {
+        // Upload the image to Cloudinary
+        const result = await cloudinary.uploader.upload(req.body.image, {
+            folder: "eventImages",
+        });
+
+        // Update the event in the database
+        const updatedEvent = await Event.findByIdAndUpdate(req.params.id, {
+            name: req.body.eventName,
+            coordinates: req.body.coordinates,
+            address: req.body.address,
+            date: req.body.eventDate,
+            time: req.body.time,
+            price: req.body.price,
+            description: req.body.description,
+            image: {
+                public_id: result.public_id,
+                url: result.secure_url,
+            },
+            organizerId: req.body.organizerId,
+        });
+
+        // Check if the event was updated
+        if (!updatedEvent) {
+            return res.status(404).json({ error: 'Event not found' });
+        }
+        // Send a success response
+        res.json("Event update successful");
+    } catch (error) {
+        console.error('Error updating event:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
 
 
 
@@ -79,4 +95,20 @@ const deleteEvents=async(req,res)=>{
     res.json({deleteEvent});
 };
 
-module.exports={createEvents,eventByOrgs,updateEvents,deleteEvents};
+
+
+//api for patch
+const updateStatus=async(req,res)=>{
+    
+    try {
+        const updateStat=await Event.findByIdAndUpdate(req.params.id,{
+            statusVal:req.body.statusVal
+        })
+        res.json({updateStat});
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+module.exports={createEvents,eventByOrgs,updateEvents,deleteEvents,updateStatus};

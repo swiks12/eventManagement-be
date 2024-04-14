@@ -8,6 +8,9 @@ const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
 const verifyandGetvalueRoute = require("./routes/tokenVerify");
 const eventRoutes = require("./routes/eventRoute");
+const adminRoutes=require("./routes/admin");
+const userEvents=require("./routes/userEvents");
+
 
 connection();
 
@@ -23,6 +26,9 @@ app.use("/api/login", userRoutes);
 app.use("/api/signup", authRoutes);
 app.use("/api/tokenVerify", verifyandGetvalueRoute);
 app.use("/api/events", eventRoutes);
+app.use("/api/admin",adminRoutes);
+app.use("/api/user",userEvents);
+
 
 const port = process.env.PORT || 8080;
 
