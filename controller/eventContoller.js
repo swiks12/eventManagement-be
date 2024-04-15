@@ -111,4 +111,15 @@ const updateStatus=async(req,res)=>{
 }
 
 
-module.exports={createEvents,eventByOrgs,updateEvents,deleteEvents,updateStatus};
+//find individual events according to the id passes
+
+const individualEvents=async(req,res)=>{
+    try {
+        const individualEvent=await Event.findById(req.params.id);
+        res.json(individualEvent)
+    } catch (error) {
+        res.status(500).json({error:"Server error"});
+    }
+}
+
+module.exports={createEvents,eventByOrgs,updateEvents,deleteEvents,updateStatus,individualEvents};
