@@ -53,23 +53,23 @@ const eventByOrgs=async(req,res)=>{
 const updateEvents = async (req, res) => {
     try {
         // Upload the image to Cloudinary
-        const result = await cloudinary.uploader.upload(req.body.image, {
-            folder: "eventImages",
-        });
+        // const result = await cloudinary.uploader.upload(req.body.image, {
+        //     folder: "eventImages",
+        // });
 
         // Update the event in the database
         const updatedEvent = await Event.findByIdAndUpdate(req.params.id, {
-            name: req.body.eventName,
+            name: req.body.name,
             coordinates: req.body.coordinates,
             address: req.body.address,
-            date: req.body.eventDate,
+            date: req.body.date,
             time: req.body.time,
             price: req.body.price,
             description: req.body.description,
-            image: {
-                public_id: result.public_id,
-                url: result.secure_url,
-            },
+            // image: {
+            //     public_id: result.public_id,
+            //     url: result.secure_url,
+            // },
             organizerId: req.body.organizerId,
         });
 

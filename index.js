@@ -10,6 +10,8 @@ const verifyandGetvalueRoute = require("./routes/tokenVerify");
 const eventRoutes = require("./routes/eventRoute");
 const adminRoutes=require("./routes/admin");
 const userEvents=require("./routes/userEvents");
+const ticketRoutes=require("./routes/ticketRoute");
+const stripeRoute=require("./routes/stripe-route");
 
 
 connection();
@@ -28,6 +30,11 @@ app.use("/api/tokenVerify", verifyandGetvalueRoute);
 app.use("/api/events", eventRoutes);
 app.use("/api/admin",adminRoutes);
 app.use("/api/user",userEvents);
+app.use("/api",ticketRoutes);
+app.use("/api",stripeRoute);
+
+
+
 
 
 const port = process.env.PORT || 8080;
