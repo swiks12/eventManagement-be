@@ -7,8 +7,6 @@ const router = express.Router();
 router.post("/create-checkout-session", async (req, res) => {
   try {
     const { name, price,eventId} = req.body; // Assuming req.body contains name and price directly
-
-    
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -26,6 +24,7 @@ router.post("/create-checkout-session", async (req, res) => {
       success_url: `http://localhost:5173/user/success/${eventId}`,
       cancel_url: "http://localhost:5173/cancel",
     });
+    console.log(session);
     res.json({ url: session.url });
   } catch (error) {
     console.error("Error creating checkout session:", error);
