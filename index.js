@@ -9,8 +9,8 @@ const authRoutes = require("./routes/auth");
 const verifyandGetvalueRoute = require("./routes/tokenVerify");
 const eventRoutes = require("./routes/eventRoute");
 const adminRoutes=require("./routes/admin");
-const userEvents=require("./routes/userEvents");
-const ticketRoutes=require("./routes/ticketRoute");
+const userDetails=require("./routes/userEvents");
+const paidOrgEventRoutes=require("./routes/ticketRoute");
 const stripeRoute=require("./routes/stripe-route");
 
 
@@ -29,8 +29,8 @@ app.use("/api/signup", authRoutes);
 app.use("/api/tokenVerify", verifyandGetvalueRoute);
 app.use("/api/events", eventRoutes);
 app.use("/api/admin",adminRoutes);
-app.use("/api/user",userEvents);
-app.use("/api",ticketRoutes);
+app.use("/api/user",userDetails);
+app.use("/api",paidOrgEventRoutes);
 app.use("/api",stripeRoute);
 
 

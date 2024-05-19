@@ -1,8 +1,8 @@
-const tickets=require("../controller/ticketController");
+const paidOrgEventRoutes=require("../controller/ticketController");
 const express=require("express");
 const router=express.Router();
 
-router.post("/tickets",tickets);
+router.get("/paidEvents/:organizerId",paidOrgEventRoutes);
 
 
 module.exports=router;

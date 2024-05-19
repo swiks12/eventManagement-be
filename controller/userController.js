@@ -1,4 +1,5 @@
 const Event=require("../models/event");
+const User=require("../models/user")
 
 
 const userEvents=async(req,res)=>{
@@ -10,4 +11,17 @@ const userEvents=async(req,res)=>{
     }
 }
 
-module.exports=userEvents;
+
+//return a user
+const users = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Assuming the userId is passed as a URL parameter
+        const user = await User.findById(userId);
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
+
+module.exports={userEvents,users};

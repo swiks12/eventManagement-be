@@ -2,11 +2,15 @@
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const express = require("express");
 const router = express.Router();
+const Ticket=require("../models/ticket");
+const Event=require("../models/event");
+
+
 
 // POST route to create a checkout session
 router.post("/create-checkout-session", async (req, res) => {
   try {
-    const { name, price,eventId} = req.body; // Assuming req.body contains name and price directly
+    const { name, price,eventId,userId} = req.body; // Assuming req.body contains name and price directly
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -24,6 +28,17 @@ router.post("/create-checkout-session", async (req, res) => {
       success_url: `http://localhost:5173/user/success/${eventId}`,
       cancel_url: "http://localhost:5173/cancel",
     });
+    console.log(userId);
+
+    const eventByOrg=await Event.findById(eventId);
+    console.log(eventByOrg);
+    const organizerId=eventByOrg.organizerId;
+
+          const ticket=await Ticket.create({
+              userId:userId,
+              eventId:eventId,
+              organizerId:organizerId,
+          });
     console.log(session);
     res.json({ url: session.url });
   } catch (error) {

@@ -1,21 +1,13 @@
+const Ticket = require("../models/ticket");
 
-const Ticket=require("../models/ticket");
+const allOrganizerEvents = async (req, res) => {
+  const organizerId = req.params.organizerId;
+  try {
+    const allOrganizerEvent = await Ticket.find({ organizerId });
+    res.json({ allOrganizerEvent });
+  } catch (error) {
+    res.status(500).json({ error: "server error" });
+  }
+};
 
-
-const tickets=async(req,res)=>{
-
-    try {
-        const ticket=await Ticket.create({
-            userId:req.body.userId,
-            eventId:req.body.eventId,
-        })
-        res.json(ticket)
-        
-    } catch (error) {
-       res.status(500).json({error:'server error'});
-    }
-
-}
-
-
-module.exports=tickets;
+module.exports = allOrganizerEvents;

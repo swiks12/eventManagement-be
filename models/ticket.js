@@ -5,6 +5,8 @@ const ticketSchema=new mongoose.Schema({
     required:true},
     eventId:{type:mongoose.Schema.Types.ObjectId,
     required:true},
+    organizerId:{type:mongoose.Schema.Types.ObjectId,
+    required:true},
 })
 
 
